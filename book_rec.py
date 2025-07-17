@@ -7,7 +7,7 @@ ratings = pd.read_csv('data/BX-Book-Ratings.csv', encoding='cp1251', sep=';')
 ratings = ratings[ratings['Book-Rating']!=0]
 
 # load books
-books = pd.read_csv('data/BX-Books.csv',  encoding='cp1251', sep=';',on_bad_lines='skip')
+books = pd.read_csv('data/Books.csv',  encoding='cp1251', sep=',',on_bad_lines='skip', low_memory=False)
 
 #users_ratigs = pd.merge(ratings, users, on=['User-ID'])
 dataset = pd.merge(ratings, books, on=['ISBN'])
@@ -73,3 +73,4 @@ for LoR_book in LoR_list:
 print("Correlation for book:", LoR_list[0])
 #print("Average rating of LOR:", ratings_data_raw[ratings_data_raw['Book-Title']=='the fellowship of the ring (the lord of the rings, part 1'].groupby(ratings_data_raw['Book-Title']).mean()))
 rslt = result_list[0]
+print(rslt)
