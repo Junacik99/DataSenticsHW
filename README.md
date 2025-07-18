@@ -21,3 +21,15 @@ File: *prod_book_rec.py*
 - Constants -> parameters
 - For loop -> pandas vectorized opperations
 - Cleaner code and lower memory requirements (less attributes in tables) 
+
+## Other Recommendation Methods
+File: *rec_methods.py*
+### Association Rules
+Dataset: *Books.csv*, *BX-Book-Ratings.csv*
+
+Association rules are collaborative filtering method. **Lift** is used as a metric to compute recommendations. Lift is a ratio between **confidence** and **support**. The confidence is a conditional probability of one book being reviewed if the other book had been reviewed. The support is only the probability of the book being reviewed.
+
+### Content-Based Recommendations
+Dataset: *goodreads.csv*
+
+To compute recommendations, the book title and genres are concatenated and one-hot encoded using *sklearn* library. Then, a cosine similarity is calculated to provide the most similar books to the prompted book.
