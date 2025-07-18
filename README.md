@@ -2,7 +2,7 @@
 Martin Takács
 
 ## Code Review
-file: book_rec.py
+File: *book_rec.py*
 - DS path and book list (*LoR_list*) should be parametrized
 - *error_bad_lines* is deprecated and should be replaced with *on_bad_lines = 'skip'*
 - code should not contain unnecessary lines/comments (user ratings)
@@ -15,3 +15,9 @@ file: book_rec.py
 - after the count aggregation, *User ID* attribute no longer stands for the ID, but the count of IDs (naming)
 - *dataset_for_corr* might be too wide
 - if *LoR_book* is not specified/undefined -> error
+
+## Productionalized Code
+File: *prod_book_rec.py*
+- Constants -> parameters
+- For loop -> pandas vectorized opperations
+- Cleaner code and lower memory requirements (less attributes in tables) 
