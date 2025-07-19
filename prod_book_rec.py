@@ -91,7 +91,7 @@ def recommend(
         recommendations = corr_recommendations(dataset, books_to_compare, book)
         print(f"Correlation-based recommendations for '{book}':")
         print(recommendations.head(top_n))
-        return recommendations
+        return recommendations.head(top_n)
     
     else:
         print("Invalid method specified. Use 'assoc' for association rules or 'corr' for correlation-based recommendations.")

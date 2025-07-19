@@ -52,7 +52,7 @@ def create_layout(app):
             ], justify="center"),
             dbc.Row([
                 dbc.Col(
-                    html.Ul(id='results-output', className="mt-4"),
+                    html.Div(id='results-output', className="mt-4"),
                 )
             ])
         ])
@@ -61,13 +61,29 @@ def create_layout(app):
 
 def process_recommendations(recommendations, algorithm):
     if algorithm == 'cb':
-        return recommendations
-    
-    elif algorithm == 'corr':
-        return recommendations.to_json()
+        books = []
+        for book in recommendations:
+            books.append(dbc.Row([
+                dbc.Col(html.Div(book), width="auto")
+            ], className="mt-2", justify="center"))
+        return books
     
     elif algorithm == 'assoc':
-        return recommendations
+        books = []
+        for book in recommendations:
+            books.append(dbc.Row([
+                dbc.Col(html.Div(book), width="auto")
+            ], className="mt-2", justify="center"))
+        return books
+
+    elif algorithm == 'corr':
+        books = []
+        for book in recommendations['book']:
+            books.append(dbc.Row([
+                dbc.Col(html.Div(book), width="auto")
+            ], className="mt-2", justify="center"))
+        return books
+
     else:
         return dbc.Alert("Invalid recommendation method selected.", color="danger")
 
