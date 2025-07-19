@@ -43,12 +43,15 @@ def recommend(
         # To lowercase
         lambda x: x.str.lower() if x.dtype == 'object' and all(isinstance(val, str) for val in x.dropna()) else x
     )
+
     
     # Check if the book exists in the dataset
     book = book.lower()
     if book not in dataset['Book-Title'].values:
         print(f"Book '{book}' not found in the dataset.")
         raise ValueError(f"Book '{book}' not found in the dataset.")
+    
+    # if (method == 'corr' or method == 'assoc') and :
     
     if method == 'cb':
         # Get content-based recommendations
@@ -72,6 +75,9 @@ def recommend(
     # Find books with at least 8 ratings
     book_counts = dataset['Book-Title'].value_counts()
     books_to_compare = book_counts[book_counts >= 8].index
+
+    if books_to_compare.empty:
+        raise Exception("No books with sufficient ratings to compare.")
 
     if method == 'assoc':
         # Use association rules to find recommendations

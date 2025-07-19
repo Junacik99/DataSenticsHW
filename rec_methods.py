@@ -74,7 +74,10 @@ def corr_recommendations(
     )
 
     # Compute correlations for all other books with the target book
-    correlations = user_book_matrix.drop(columns=[book], errors='ignore').corrwith(user_book_matrix[book])
+    try:
+        correlations = user_book_matrix.drop(columns=[book], errors='ignore').corrwith(user_book_matrix[book])
+    except Exception as e:
+        raise ValueError("Could not compute correlations. Ensure the book exists in the dataset.")
 
     # Compute average ratings for all books at once
     avg_ratings = dataset.groupby('Book-Title')['Book-Rating'].mean()
