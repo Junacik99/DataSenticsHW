@@ -5,7 +5,7 @@ def assoc_rules(
     books_to_compare: pd.Index,
     book: str,
     min_lift: float = 2.0
-) -> pd.DataFrame:
+) -> list:
     """
     Generate association rules for a given book.
     
@@ -91,8 +91,8 @@ def corr_recommendations(
 
 def content_based_recommendations(
     dataset: pd.DataFrame, 
-    book: str
-) -> pd.DataFrame:
+    book: str,
+) -> list:
     """
     Generate content-based recommendations for a given book.
     

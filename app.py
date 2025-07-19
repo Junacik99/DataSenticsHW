@@ -59,6 +59,19 @@ def create_layout(app):
     ])
 
 
+def process_recommendations(recommendations, algorithm):
+    if algorithm == 'cb':
+        return recommendations
+    
+    elif algorithm == 'corr':
+        return recommendations.to_json()
+    
+    elif algorithm == 'assoc':
+        return recommendations
+    else:
+        return dbc.Alert("Invalid recommendation method selected.", color="danger")
+
+
 def main():
     app = Dash(external_stylesheets=[dbc.themes.BOOTSTRAP])
 
@@ -77,12 +90,14 @@ def main():
         # Recommendation logic
         books_file = 'data/goodreads.csv' if algorithm == 'cb' else 'data/Books.csv' 
         try:
-            result = recommend(
+            recommendations = recommend(
                 ratings_file='data/BX-Book-Ratings.csv', 
                 books_file=books_file, 
                 book=book_title, 
                 method=algorithm
             )
+
+            result = process_recommendations(recommendations, algorithm)
             return result
         except Exception as e:
             return dbc.Alert(f"An error occurred: {str(e)}", color="danger")

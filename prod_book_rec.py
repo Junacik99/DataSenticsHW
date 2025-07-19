@@ -11,7 +11,9 @@ def recommend(
     ratings_file, 
     books_file, 
     book, 
-    method):
+    method,
+    top_n=10
+    ):
     """
     Recommend books based on the specified method.
 
@@ -46,17 +48,19 @@ def recommend(
     book = book.lower()
     if book not in dataset['Book-Title'].values:
         print(f"Book '{book}' not found in the dataset.")
-        return
+        raise ValueError(f"Book '{book}' not found in the dataset.")
     
     if method == 'cb':
         # Get content-based recommendations
         similar_books = content_based_recommendations(dataset, book)
 
         # Display top recommendations
-        print(f"Recommendations for '{book}':")
-        for idx, score in similar_books[:10]:
+        print(f"Content-based recommendations for '{book}':")
+        recommendations = [dataset.iloc[idx]['Book-Title'] for idx, _ in similar_books[:top_n]]
+        for idx, score in similar_books[:top_n]:
             print(f"- {dataset.iloc[idx]['Book-Title']} (Score: {score:.2f})")
-        return similar_books.to_json()
+        
+        return recommendations
 
     ## If method is not 'cb', proceed with collaborative filtering methods ##
 
@@ -73,15 +77,15 @@ def recommend(
         # Use association rules to find recommendations
         recommendations = assoc_rules(dataset, books_to_compare, book)
         print(f"Association rule recommendations for '{book}':")
-        print(recommendations)
-        return recommendations.to_json()
+        print(recommendations[:top_n])
+        return recommendations
     
     elif method == 'corr':
         # Use correlation to find recommendations
         recommendations = corr_recommendations(dataset, books_to_compare, book)
         print(f"Correlation-based recommendations for '{book}':")
-        print(recommendations.head(10))
-        return recommendations.to_json()
+        print(recommendations.head(top_n))
+        return recommendations
     
     else:
         print("Invalid method specified. Use 'assoc' for association rules or 'corr' for correlation-based recommendations.")
@@ -92,17 +96,20 @@ def recommend(
 @click.option('-b', '--books_file', default='data/Books.csv', help='Path to the books CSV file.')
 @click.option('-i', '--book', default='the fellowship of the ring (the lord of the rings, part 1)', help='Book title to find recommendations for.')
 @click.option('-m', '--method', default='assoc', type=click.Choice(['assoc', 'corr', 'cb'], case_sensitive=False), help='Method for recommendations: "assoc" for association rules or "corr" for correlation-based.')
+@click.option('-n', '--top_n', default=10, help='Number of top recommendations to display.')
 def main(
     ratings_file, 
     books_file, 
     book, 
-    method
+    method,
+    top_n
     ):
     recommend(
         ratings_file=ratings_file, 
         books_file=books_file, 
         book=book, 
-        method=method
+        method=method,
+        top_n=top_n
     )
 
 
