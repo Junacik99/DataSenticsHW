@@ -38,6 +38,10 @@ Options:
   --help                        Show this message and exit.
 ```
 
+## Application Design
+![The application design](DatasenticsHW.jpg)
+
+
 ## Other Recommendation Methods
 File: *rec_methods.py*
 ### Association Rules
