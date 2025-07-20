@@ -42,7 +42,7 @@ def main():
     app.title = 'Book Recommendations'
     app.layout = create_layout(app)
 
-    app.run(debug=True)
+    app.run()
 
 
 if __name__ == '__main__':

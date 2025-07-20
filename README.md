@@ -57,4 +57,6 @@ For a simple user interface a Dash application has been created. The application
 ```
 python app.py
 ```
-The application consists of the dropdown menu for the recommendations method selection, 
+The application consists of the dropdown menu for the recommendations method selection, text field for the book title and a search button.
+
+Upon pressing the search button, recommendations are displayed as book titles in separate rows. No images have been included.
