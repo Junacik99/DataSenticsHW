@@ -2,7 +2,7 @@
 Martin Takács
 
 ## Code Review
-File: *book_rec.py*
+File: [*book_rec.py*](book_rec.py)
 - DS path and book list (*LoR_list*) should be parametrized
 - *error_bad_lines* is deprecated and should be replaced with *on_bad_lines = 'skip'*
 - code should not contain unnecessary lines/comments (user ratings)
@@ -17,7 +17,7 @@ File: *book_rec.py*
 - if *LoR_book* is not specified/undefined -> error
 
 ## Productionalized Code
-File: *prod_book_rec.py*
+File: [*prod_book_rec.py*](src/prod_book_rec.py)
 - Constants -> parameters
 - For loop -> pandas vectorized opperations
 - Cleaner code and lower memory requirements (less attributes in tables) 
@@ -41,17 +41,17 @@ Options:
 ## Other Recommendation Methods
 File: *rec_methods.py*
 ### Association Rules
-Dataset: *Books.csv*, *BX-Book-Ratings.csv*
+Dataset: [*Books.csv*](data/Books.csv), [*BX-Book-Ratings.csv*](data/BX-Book-Ratings.csv)
 
 Association rules are collaborative filtering method. **Lift** is used as a metric to compute recommendations. Lift is a ratio between **confidence** and **support**. The confidence is a conditional probability of one book being reviewed if the other book had been reviewed. The support is only the probability of the book being reviewed.
 
 ### Content-Based Recommendations
-Dataset: *goodreads.csv*
+Dataset: [*goodreads.csv*](data/goodreads.csv)
 
 To compute recommendations, the book title and genres are concatenated and one-hot encoded using *sklearn* library. Then, a cosine similarity is calculated to provide the most similar books to the prompted book.
 
 ## Frontend
-File: *app.py*, *app_utils.py*
+File: [*app.py*](app.py), [*app_utils.py*](src/app_utils.py)
 
 For a simple user interface a Dash application has been created. The application runs in the web browser. To run the application issue command:
 ```
