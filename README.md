@@ -39,7 +39,7 @@ Options:
 ```
 
 ## Application Design
-![The application design](DatasenticsHW.jpg)
+![The application design](img/DatasenticsHW%20-%20Frame%201.jpg)
 
 
 ## Other Recommendation Methods
