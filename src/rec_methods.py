@@ -1,3 +1,7 @@
+# rec_methods.py
+# This module contains the recommendation methods for book recommendations.
+# It includes association rules, correlation-based recommendations, and content-based recommendations.
+
 import pandas as pd
 
 def assoc_rules(
@@ -98,6 +102,7 @@ def content_based_recommendations(
 ) -> list:
     """
     Generate content-based recommendations for a given book.
+    Content is based on the book author and genres.
     
     Parameters:
         dataset (pd.DataFrame): The dataset containing book titles, authors, and genres.

@@ -22,6 +22,22 @@ File: *prod_book_rec.py*
 - For loop -> pandas vectorized opperations
 - Cleaner code and lower memory requirements (less attributes in tables) 
 
+To get recommendations issue command:
+```
+python prod_book_rec.py [OPTIONS]
+```
+```
+Options:
+  -r, --ratings_file TEXT       Path to the ratings CSV file.
+  -b, --books_file TEXT         Path to the books CSV file.
+  -i, --book TEXT               Book title to find recommendations for.
+  -m, --method [assoc|corr|cb]  Method for recommendations: "assoc" for
+                                association rules or "corr" for correlation-       
+                                based.
+  -n, --top_n INTEGER           Number of top recommendations to display.
+  --help                        Show this message and exit.
+```
+
 ## Other Recommendation Methods
 File: *rec_methods.py*
 ### Association Rules
@@ -33,3 +49,12 @@ Association rules are collaborative filtering method. **Lift** is used as a metr
 Dataset: *goodreads.csv*
 
 To compute recommendations, the book title and genres are concatenated and one-hot encoded using *sklearn* library. Then, a cosine similarity is calculated to provide the most similar books to the prompted book.
+
+## Frontend
+File: *app.py*, *app_utils.py*
+
+For a simple user interface a Dash application has been created. The application runs in the web browser. To run the application issue command:
+```
+python app.py
+```
+The application consists of the dropdown menu for the recommendations method selection, 

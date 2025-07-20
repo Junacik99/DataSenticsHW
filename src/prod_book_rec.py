@@ -1,18 +1,25 @@
-# TODO:
-# - parametrize columns as well
-# - use iterative load if the dataset would be too big
+# prod_book_rec.py
+# This module contains the main recommendation function that integrates different recommendation methods.
+# It can be called from the command line or imported into other scripts.
+# It calls the appropriate recommendation method based on user input.
+# Content-based recommendations use different dataset than collaborative filtering methods.
 
 import click
 import pandas as pd
 import numpy as np
-from rec_methods import assoc_rules, corr_recommendations, content_based_recommendations
+try:
+    from rec_methods import assoc_rules, corr_recommendations, content_based_recommendations
+except ImportError:
+    from src.rec_methods import assoc_rules, corr_recommendations, content_based_recommendations
 
 def recommend(
     ratings_file, 
     books_file, 
     book, 
     method,
-    top_n=10
+    top_n=10,
+    min_lift=2.0,
+    min_ratings=8
     ):
     """
     Recommend books based on the specified method.
@@ -22,10 +29,14 @@ def recommend(
         books_file (str): Path to the books CSV file.
         book (str): Title of the book to find recommendations for.
         method (str): Method for recommendations ('assoc', 'corr', 'cb').
+        top_n (int): Number of top recommendations to return.
+        min_lift (float): Minimum lift for association rules.
+        min_ratings (int): Minimum number of ratings a book must have to be considered for recommendations (CF methods).
 
     Returns:
         None: Prints recommendations to the console.
     """
+
     # Load dataset
     ratings = pd.read_csv(ratings_file, encoding='cp1251', sep=';')
     ratings = ratings[ratings['Book-Rating']!=0]
@@ -37,6 +48,7 @@ def recommend(
         low_memory=False,
         usecols=['ISBN', 'Book-Title', 'Book-Author', 'genres'] if method == 'cb' else ['ISBN', 'Book-Title', 'Book-Author']
         )
+    
     # Include ratings in the dataset if method is not Content-Based
     dataset = books if method == 'cb' else pd.merge(ratings, books, on=['ISBN'])
     dataset = dataset.apply(
@@ -48,10 +60,8 @@ def recommend(
     # Check if the book exists in the dataset
     book = book.lower()
     if book not in dataset['Book-Title'].values:
-        print(f"Book '{book}' not found in the dataset.")
         raise ValueError(f"Book '{book}' not found in the dataset.")
     
-    # if (method == 'corr' or method == 'assoc') and :
     
     if method == 'cb':
         # Get content-based recommendations
@@ -65,6 +75,7 @@ def recommend(
         
         return recommendations
 
+
     ## If method is not 'cb', proceed with collaborative filtering methods ##
 
     # Filter dataset based on the readers of the book
@@ -74,14 +85,14 @@ def recommend(
 
     # Find books with at least 8 ratings
     book_counts = dataset['Book-Title'].value_counts()
-    books_to_compare = book_counts[book_counts >= 8].index
+    books_to_compare = book_counts[book_counts >= min_ratings].index
 
     if books_to_compare.empty:
         raise Exception("No books with sufficient ratings to compare.")
 
     if method == 'assoc':
         # Use association rules to find recommendations
-        recommendations = assoc_rules(dataset, books_to_compare, book)
+        recommendations = assoc_rules(dataset, books_to_compare, book, min_lift=min_lift)
         print(f"Association rule recommendations for '{book}':")
         print(recommendations[:top_n])
         return recommendations
@@ -96,6 +107,7 @@ def recommend(
     else:
         print("Invalid method specified. Use 'assoc' for association rules or 'corr' for correlation-based recommendations.")
         return
+
 
 @click.command()
 @click.option('-r', '--ratings_file', default='data/BX-Book-Ratings.csv', help='Path to the ratings CSV file.')

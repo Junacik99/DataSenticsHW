@@ -1,91 +1,12 @@
+# app.py
+# This file sets up the Dash application for book recommendations.
+# It includes the layout and callback functions to handle user interactions.
+# And prints the recommendations based on the selected method.
+
 from dash import dcc, html, Output, Input, State, Dash
 import dash_bootstrap_components as dbc
-from prod_book_rec import recommend
-
-
-def create_layout(app):
-    return html.Div([
-        dbc.Container([
-            dbc.Row([
-                dbc.Col(html.H1(app.title), className="text-center mb-4")
-            ], justify="center"),
-            dbc.Row([
-                dbc.Col(
-                    dcc.Dropdown(
-                        id='algorithm-dropdown',
-                        options=[
-                            {'label': 'Content-Based', 'value': 'cb'},
-                            {'label': 'Correlation', 'value': 'corr'},
-                            {'label': 'Association rules', 'value': 'assoc'}
-                        ],
-                        value='corr',
-                        clearable=False,
-                        style={'width': '300px'}
-                    ),
-                    width="auto",
-                    className="mb-2 d-flex justify-content-center"
-                )
-            ], justify="center"),
-            dbc.Row([
-                dbc.Col(
-                    dcc.Input(
-                        id='book-input',
-                        type='text',
-                        placeholder='Enter book title',
-                        style={'width': '300px'}
-                    ),
-                    width="auto",
-                    className="mb-2 d-flex justify-content-center"
-                ),
-            ], justify="center"),
-            dbc.Row([
-                dbc.Col(
-                    dbc.Button(
-                        'Search', 
-                        id='search-button', 
-                        color='primary', 
-                        style={'width': '300px'}
-                    ),
-                    width="auto",
-                    className="mb-2 d-flex justify-content-center"
-                ),
-            ], justify="center"),
-            dbc.Row([
-                dbc.Col(
-                    html.Div(id='results-output', className="mt-4"),
-                )
-            ])
-        ])
-    ])
-
-
-def process_recommendations(recommendations, algorithm):
-    if algorithm == 'cb':
-        books = []
-        for book in recommendations:
-            books.append(dbc.Row([
-                dbc.Col(html.Div(book), width="auto")
-            ], className="mt-2", justify="center"))
-        return books
-    
-    elif algorithm == 'assoc':
-        books = []
-        for book in recommendations:
-            books.append(dbc.Row([
-                dbc.Col(html.Div(book), width="auto")
-            ], className="mt-2", justify="center"))
-        return books
-
-    elif algorithm == 'corr':
-        books = []
-        for book in recommendations['book']:
-            books.append(dbc.Row([
-                dbc.Col(html.Div(book), width="auto")
-            ], className="mt-2", justify="center"))
-        return books
-
-    else:
-        return dbc.Alert("Invalid recommendation method selected.", color="danger")
+from src.prod_book_rec import recommend
+from src.app_utils import create_layout, process_recommendations
 
 
 def main():
