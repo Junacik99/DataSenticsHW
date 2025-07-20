@@ -3,7 +3,7 @@
 # It includes the layout and callback functions to handle user interactions.
 # And prints the recommendations based on the selected method.
 
-from dash import dcc, html, Output, Input, State, Dash
+from dash import Output, Input, State, Dash
 import dash_bootstrap_components as dbc
 from src.prod_book_rec import recommend
 from src.app_utils import create_layout, process_recommendations
