@@ -46,15 +46,13 @@ def recommend(
         sep=',', 
         on_bad_lines='skip', 
         low_memory=False,
-        usecols=['ISBN', 'Book-Title', 'Book-Author', 'genres'] if method == 'cb' else ['ISBN', 'Book-Title', 'Book-Author']
+        usecols=['ISBN', 'Book-Title', 'Book-Author', 'genres'] if method == 'cb' else ['ISBN', 'Book-Title', 'Book-Author', 'Image-URL-M']
         )
-    
+
     # Include ratings in the dataset if method is not Content-Based
     dataset = books if method == 'cb' else pd.merge(ratings, books, on=['ISBN'])
-    dataset = dataset.apply(
-        # To lowercase
-        lambda x: x.str.lower() if x.dtype == 'object' and all(isinstance(val, str) for val in x.dropna()) else x
-    )
+    # Convert only the 'Book-Title' column to lowercase
+    dataset['Book-Title'] = dataset['Book-Title'].str.lower()
 
     
     # Check if the book exists in the dataset

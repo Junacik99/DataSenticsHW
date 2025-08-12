@@ -87,10 +87,14 @@ def corr_recommendations(
     avg_ratings = dataset.groupby('Book-Title')['Book-Rating'].mean()
 
     # Build the DataFrame
+    # Get the first image URL for each book using ISBN
+    isbn_image_map = dataset.drop_duplicates('Book-Title').set_index('Book-Title')['Image-URL-M']
+
     correlated_books = pd.DataFrame({
         'book': correlations.index,
         'corr': correlations.values,
-        'avg_rating': correlations.index.map(avg_ratings)
+        'avg_rating': correlations.index.map(avg_ratings),
+        'image_url': correlations.index.map(isbn_image_map),
     })
     
     return correlated_books.sort_values('corr', ascending=False)
