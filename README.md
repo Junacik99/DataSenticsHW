@@ -8,6 +8,7 @@ File: [*book_rec.py*](book_rec.py)
 - code should not contain unnecessary lines/comments (user ratings)
 - check if value is string before trying to lowercase it
     - attribute 'Year of Publication' was lost due to the error
+    - only attribute Book Title needs to be lowercased
 - variable naming: *tolkein_readers* are actually readers of the LOTR 1
 - what if the *books_to_compare* was empty?
     - error on drop empty result
@@ -65,4 +66,4 @@ And open the address shown in the terminal.
 
 The application consists of the dropdown menu for the recommendations method selection, text field for the book title and a search button.
 
-Upon pressing the search button, recommendations are displayed as book titles in separate rows. No images have been included.
+Upon pressing the search button, recommendations are displayed as a pair of book title and its cover image. Cover images are displayed only for the correlation method. For the association rules and content-based methods the cover images are replaced by the placeholder image.
