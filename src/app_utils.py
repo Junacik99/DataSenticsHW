@@ -77,7 +77,7 @@ def create_layout(app):
                             'display': 'grid',
                             'gridTemplateColumns': 'repeat(auto-fill, minmax(180px, 1fr))',
                             'gap': '20px',
-                            'maxHeight': '500px',
+                            'maxHeight': '600px',
                             'overflowY': 'auto',
                             'padding': '10px',
                             'backgroundColor': '#f8f9fa',

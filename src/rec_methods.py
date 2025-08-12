@@ -35,9 +35,10 @@ def assoc_rules(
     ).fillna(0).astype(bool)
 
     # Find frequent itemsets
+    # Set of items that occur together in at least <min_support> of all transactions in the database
     frequent_itemsets = apriori(user_book_matrix, min_support=0.05, use_colnames=True)
 
-    # Generate association rules
+    # Generate association rules from frequent itemsets
     rules = association_rules(frequent_itemsets, metric="lift", min_threshold=min_lift)
 
     # Filter rules where the target book is in the antecedents
